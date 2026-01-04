@@ -10,6 +10,9 @@
 
 <!-- AUTOGEN:BEGIN CHANGELOG -->
 ## 2026-01-04
+- Авто-обновление документации по `jobs/job_0002/state/state.json`.
+- Канонический job подтверждён: `job_0002` (PASS1–3=PASS/PASS/PASS, issues=0).
+## 2026-01-04
 - (инициализация автоген-блока) CHANGELOG синхронизируется со `state.json`.
 - Новые записи добавляются **только** при явном bump-обновлении.
 <!-- AUTOGEN:END CHANGELOG -->

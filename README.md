@@ -48,6 +48,10 @@ structure-text/
 ├─ README.md
 │
 ├─ docs/
+│  ├─ CHANGELOG.md
+│  ├─ RUNBOOK_NEW_CHAT.md
+│  ├─ STATE_CONTRACT.md
+│  ├─ WORKFLOW.md
 │  ├─ workflow_overview.md
 │  └─ conventions.md
 │

@@ -322,7 +322,7 @@ def main() -> int:
 
     # CHANGELOG: do nothing unless bump
     if args.bump:
-        changelog_path = repo_root / "CHANGELOG.md"
+        changelog_path = repo_root / "docs" / "CHANGELOG.md"
         if changelog_path.exists():
             ch = read_text(changelog_path)
             # Prepend entry into AUTOGEN block CHANGELOG
@@ -332,7 +332,7 @@ def main() -> int:
             ch_new = replace_autogen_block(ch, "CHANGELOG", combined)
             write_text(changelog_path, ch_new)
         else:
-            raise SystemExit("CHANGELOG.md not found but --bump was provided.")
+            raise SystemExit("docs/CHANGELOG.md not found but --bump was provided.")
 
     return 0
 
