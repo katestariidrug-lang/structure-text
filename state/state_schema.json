@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/state_schema.json",
+  "title": "4-pass workflow state",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["meta", "input", "passes", "immutable_snapshot", "status"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["job_id", "created_at", "timezone", "schema_version"],
+      "properties": {
+        "job_id": { "type": "string", "pattern": "^job_\\d{4}$" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "timezone": { "type": "string" },
+        "schema_version": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+
+    "input": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["mode", "payload"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["text", "url", "files", "structured"]
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Raw input data (text, url list, or file references)."
+        },
+        "constraints": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "User constraints for the whole job (tone, forbidden items, etc.)."
+        }
+      }
+    },
+
+    "passes": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["decide", "execute", "verify", "patch"],
+      "properties": {
+        "decide": { "$ref": "#/$defs/pass_record_decide" },
+        "execute": { "$ref": "#/$defs/pass_record_generic" },
+        "verify": { "$ref": "#/$defs/pass_record_verify" },
+        "patch": { "$ref": "#/$defs/pass_record_patch" }
+      }
+    },
+
+    "immutable_snapshot": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status", "hash", "locked_at", "source_pass"],
+      "properties": {
+        "status": { "type": "string", "enum": ["UNLOCKED", "LOCKED"] },
+        "hash": { "type": "string", "minLength": 8 },
+        "locked_at": { "type": "string", "format": "date-time" },
+        "source_pass": { "type": "string", "enum": ["decide"] }
+      }
+    },
+
+    "status": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["phase", "run_state", "last_updated_at"],
+      "properties": {
+        "phase": {
+          "type": "string",
+          "enum": ["DECIDE", "EXECUTE", "VERIFY", "PATCH", "DONE"]
+        },
+        "run_state": {
+          "type": "string",
+          "enum": ["NOT_STARTED", "IN_PROGRESS", "BLOCKED", "COMPLETED"]
+        },
+        "last_updated_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+
+  "$defs": {
+    "pass_base": {
+      "type": "object",
+      "required": ["status", "started_at", "ended_at", "input_ref", "output_ref"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["NOT_RUN", "PASS", "FAIL"]
+        },
+        "started_at": { "type": "string", "format": "date-time" },
+        "ended_at": { "type": "string", "format": "date-time" },
+        "input_ref": { "type": "string" },
+        "output_ref": { "type": "string" },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+
+    "issue": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["issue_id", "severity", "title", "evidence"],
+      "properties": {
+        "issue_id": { "type": "string", "pattern": "^ISSUE_\\d{4}$" },
+        "severity": { "type": "string", "enum": ["BLOCKER", "MAJOR", "MINOR"] },
+        "title": { "type": "string" },
+        "evidence": { "type": "string" },
+        "location": { "type": "string" },
+        "recommendation": { "type": "string" }
+      }
+    },
+
+    "patch_item": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["issue_id", "action", "target_ref"],
+      "properties": {
+        "issue_id": { "type": "string", "pattern": "^ISSUE_\\d{4}$" },
+        "action": { "type": "string", "enum": ["SEARCH_REPLACE", "INSERT", "DELETE"] },
+        "target_ref": { "type": "string" },
+        "payload": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+
+    "pass_record_generic": {
+      "allOf": [
+        { "$ref": "#/$defs/pass_base" },
+        {
+          "type": "object",
+          "properties": {
+            "errors": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+
+    "pass_record_decide": {
+      "allOf": [
+        { "$ref": "#/$defs/pass_base" },
+        {
+          "type": "object",
+          "required": ["architecture_decision_json"],
+          "properties": {
+            "architecture_decision_json": {
+              "type": "object",
+              "additionalProperties": true,
+              "description": "All irreversible decisions made in PASS1."
+            },
+            "errors": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+
+    "pass_record_verify": {
+      "allOf": [
+        { "$ref": "#/$defs/pass_base" },
+        {
+          "type": "object",
+          "required": ["issues"],
+          "properties": {
+            "issues": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/issue" }
+            },
+            "errors": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+
+    "pass_record_patch": {
+      "allOf": [
+        { "$ref": "#/$defs/pass_base" },
+        {
+          "type": "object",
+          "required": ["patch_plan"],
+          "properties": {
+            "patch_plan": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/patch_item" }
+            },
+            "errors": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    }
+  }
+}

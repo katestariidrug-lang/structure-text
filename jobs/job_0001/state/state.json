@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "job_id": "job_0001",
+    "created_at": "2026-01-02T20:00:00+03:00",
+    "timezone": "Россия",
+    "schema_version": "1.0",
+    "notes": ""
+  },
+  "input": {
+    "mode": "structured",
+    "payload": {
+      "topic": "Озноб",
+      "clinic": {
+        "name": "Клиника Фомина"
+      },
+      "page_type": "disease",
+      "target_url": "https://fomin-clinic.ru/zabolevaniya/oznob/",
+      "competitors": [
+        "https://www.invitro.ru/library/simptomy/26363/",
+        "https://www.fdoctor.ru/simptom/oznob/",
+        "https://www.krasotaimedicina.ru/symptom/thermoregulation/chills",
+        "https://www.medprosvet.spb.ru/article/oznob-bez-temperatury-zyabkost-prichiny-diagnostika-lechenie",
+        "https://cold-flu.ru/blog/oznob/",
+        "https://www.onclinic-ryazan.ru/chills/",
+        "https://teledoctor24.ru/article/95-oznob-bez-temperatury/",
+        "https://premium-clinic.ru/oznob-bez-temperatury-prichiny-vozniknoveniya/",
+        "https://megapteka.ru/specials/chto-delat-pri-4302",
+        "https://mc21.ru/articles/oznob/",
+        "https://doct.ru/diseases/oznob.html"
+      ],
+      "keywords": [
+        "сильный озноб",
+        "озноб",
+        "морозит",
+        "озноб причины",
+        "озноб симптомы",
+        "озноб без температуры"
+      ],
+      "lsi": [
+        "температуры",
+        "причины",
+        "симптомы",
+        "тела",
+        "возникает",
+        "организма",
+        "повышения"
+      ],
+      "anti_cannibalization_urls": [
+        "https://fomin-clinic.ru/zabolevaniya/orvi/",
+        "https://fomin-clinic.ru/zabolevaniya/gripp/",
+        "https://fomin-clinic.ru/blog/temperatura-bez-simptomov-kogda-stoit-idti-k-vrachu/",
+        "https://fomin-clinic.ru/blog/profilaktika-orvi-i-sezonnykh-zabolevaniy/",
+        "https://fomin-clinic.ru/doctors/terapevt/"
+      ]
+    },
+    "constraints": {
+      "language": "ru",
+      "region": "RU",
+      "mode": "Search",
+      "artifact_types": [
+        "structure_spec"
+      ],
+      "formatting_rules": [
+        "Strict JSON",
+        "Explicit H1/H2/H3 fields (no Markdown rendering)",
+        "Без эмодзи",
+        "Без воды",
+        "Учитывать YMYL и медицинскую осторожность формулировок"
+      ]
+    }
+  },
+  "passes": {
+    "decide": {
+      "status": "PASS",
+      "started_at": "2026-01-02T20:00:00+03:00",
+      "ended_at": "2026-01-02T20:00:00+03:00",
+      "input_ref": "jobs/job_0001/input",
+      "output_ref": "jobs/job_0001/output",
+      "architecture_decision_json": {
+        "pass": "DECIDE",
+        "immutable_snapshot": {
+          "status": "LOCKED",
+          "reason": "Scope and constraints for the structure specification are fully defined."
+        },
+        "scope": {
+          "what_in": [
+            "Hierarchical structure (H1, H2, H3)",
+            "Keyword and LSI placement mapping per section",
+            "Requirements for YMYL compliance (disclaimers, doctor's role)",
+            "Section-specific content guidelines (tone of voice, focus points)",
+            "Differentiation from existing pages (anti-cannibalization)"
+          ],
+          "what_out": [
+            "Full article text generation",
+            "Meta title and description generation",
+            "Image selection or alt-text creation",
+            "Physical implementation of internal links"
+          ]
+        },
+        "output_spec": {
+          "artifact_types": [
+            "structure_spec"
+          ],
+          "formatting_rules": [
+            "Strict JSON",
+            "Explicit H1/H2/H3 fields (no Markdown rendering)",
+            "No emojis",
+            "Professional medical tone",
+            "Russian language"
+          ]
+        },
+        "verification_plan": {
+          "what_verify": [
+            "Inclusion of all mandatory keywords and LSI",
+            "Presence of a 'When to see a doctor' section (YMYL)",
+            "Absence of overlap with anti-cannibalization URLs",
+            "Adherence to the 'no fluff' constraint"
+          ],
+          "failure_conditions": [
+            "Missing 'chills without fever' (озноб без температуры) coverage",
+            "Lack of medical disclaimer or professional tone",
+            "Use of informal language/emojis"
+          ]
+        },
+        "patch_policy": {
+          "allowed_changes": [
+            "Refinement of section headers",
+            "LSI redistribution for better flow"
+          ],
+          "forbidden_changes": [
+            "Removing medical caution constraints",
+            "Changing the core topic"
+          ]
+        },
+        "risk_register": {
+          "top_risks": [
+            "YMYL compliance failure (providing medical advice instead of information)",
+            "Keyword stuffing in headers",
+            "Cannibalization of ORVI/Flu pages"
+          ],
+          "mitigations": [
+            "Mandatory requirement for professional therapist consultation mentions",
+            "Strict mapping of LSI to specific relevant sections",
+            "Definition of unique angle for the 'Chills' page specifically as a symptom/condition"
+          ]
+        }
+      },
+      "errors": []
+    },
+    "execute": {
+      "status": "PASS",
+      "started_at": "2026-01-02T20:00:00+03:00",
+      "ended_at": "2026-01-02T20:00:00+03:00",
+      "input_ref": "jobs/job_0001/input",
+      "output_ref": "jobs/job_0001/output",
+      "result": {
+        "artifact_ref": "jobs/job_0001/output/pass_2_execute__out.json"
+      },
+      "errors": []
+    },
+    "verify": {
+      "status": "NOT_RUN",
+      "started_at": "2026-01-02T20:00:00+03:00",
+      "ended_at": "2026-01-02T20:00:00+03:00",
+      "input_ref": "jobs/job_0001/input",
+      "output_ref": "jobs/job_0001/output",
+      "issues": [
+        {
+          "issue_id": "ISSUE_0001",
+          "severity": "BLOCKER",
+          "evidence": "DECIDE.output_spec.formatting_rules требует Markdown, но PASS2 structure_spec представлен в виде JSON-артефакта.",
+          "recommendation": "Несовместимость контракта DECIDE и результата EXECUTE. Требует архитектурного выравнивания, PATCH-уровнем не лечится."
+        }
+      ],
+      "errors": []
+    },
+    "patch": {
+      "status": "NOT_RUN",
+      "started_at": "2026-01-02T20:00:00+03:00",
+      "ended_at": "2026-01-02T20:00:00+03:00",
+      "input_ref": "jobs/job_0001/input",
+      "output_ref": "jobs/job_0001/output",
+      "patch_plan": [],
+      "errors": []
+    }
+  },
+  "immutable_snapshot": {
+    "status": "LOCKED",
+    "hash": "decide0001",
+    "locked_at": "2026-01-02T21:00:00+03:00",
+    "source_pass": "decide"
+  },
+  "status": {
+    "phase": "VERIFY",
+    "run_state": "READY",
+    "last_updated_at": "2026-01-03T18:10:47+03:00"
+  }
+}

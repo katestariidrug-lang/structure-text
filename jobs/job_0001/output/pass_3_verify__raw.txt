@@ -1,0 +1,18 @@
+{
+  "verification_summary": {
+    "result": "FAIL",
+    "blocker_count": 1,
+    "major_count": 0,
+    "minor_count": 0
+  },
+  "issues": [
+    {
+      "issue_id": "ISSUE_0001",
+      "severity": "BLOCKER",
+      "title": "Missing execution artifact (PASS 2)",
+      "evidence": "The state.passes.execute.status is currently 'NOT_RUN' and the state.status.run_state is 'NOT_STARTED'. No 'structure_spec' artifact (the hierarchical structure of the article) was found in the input provided for verification.",
+      "location": "state.passes.execute",
+      "recommendation": "The EXECUTE phase must be completed to generate the structure specification before PASS 3 (VERIFY) can audit the content against the architecture decisions and constraints."
+    }
+  ]
+}

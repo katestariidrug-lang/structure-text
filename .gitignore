@@ -1,0 +1,17 @@
+.env
+__pycache__/
+*.log
+CONTEXT.md
+Project_Builder.md
+TODO.md
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+
+# OS
+.DS_Store

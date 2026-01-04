@@ -1,0 +1,79 @@
+{
+  "decision": "DECIDE",
+  "rationale_summary": "The input provides exhaustive data including keywords, LSI, competitors, and anti-cannibalization targets. The task to create a 'structure_spec' for a medical disease page is well-defined and feasible within the provided constraints.",
+  "assumptions": [
+    "The output 'structure_spec' should serve as a detailed blueprint for a copywriter, including section objectives and keyword distribution.",
+    "Medical caution implies prioritizing clinical diagnosis over self-treatment advice.",
+    "The structure must differentiate between chills with fever and chills without fever as per the provided keywords."
+  ],
+  "open_questions": [],
+  "architecture_decision_json": {
+    "pass": "DECIDE",
+    "immutable_snapshot": {
+      "status": "LOCKED",
+      "reason": "Scope and constraints for the structure specification are fully defined."
+    },
+    "scope": {
+      "what_in": [
+        "Hierarchical structure (H1, H2, H3)",
+        "Keyword and LSI placement mapping per section",
+        "Requirements for YMYL compliance (disclaimers, doctor's role)",
+        "Section-specific content guidelines (tone of voice, focus points)",
+        "Differentiation from existing pages (anti-cannibalization)"
+      ],
+      "what_out": [
+        "Full article text generation",
+        "Meta title and description generation",
+        "Image selection or alt-text creation",
+        "Physical implementation of internal links"
+      ]
+    },
+    "output_spec": {
+      "artifact_types": [
+        "structure_spec"
+      ],
+      "formatting_rules": [
+        "Strict JSON",
+        "Explicit H1/H2/H3 fields (no Markdown rendering)",
+        "No emojis",
+        "Professional medical tone",
+        "Russian language"
+      ]
+    },
+    "verification_plan": {
+      "what_verify": [
+        "Inclusion of all mandatory keywords and LSI",
+        "Presence of a 'When to see a doctor' section (YMYL)",
+        "Absence of overlap with anti-cannibalization URLs",
+        "Adherence to the 'no fluff' constraint"
+      ],
+      "failure_conditions": [
+        "Missing 'chills without fever' (озноб без температуры) coverage",
+        "Lack of medical disclaimer or professional tone",
+        "Use of informal language/emojis"
+      ]
+    },
+    "patch_policy": {
+      "allowed_changes": [
+        "Refinement of section headers",
+        "LSI redistribution for better flow"
+      ],
+      "forbidden_changes": [
+        "Removing medical caution constraints",
+        "Changing the core topic"
+      ]
+    },
+    "risk_register": {
+      "top_risks": [
+        "YMYL compliance failure (providing medical advice instead of information)",
+        "Keyword stuffing in headers",
+        "Cannibalization of ORVI/Flu pages"
+      ],
+      "mitigations": [
+        "Mandatory requirement for professional therapist consultation mentions",
+        "Strict mapping of LSI to specific relevant sections",
+        "Definition of unique angle for the 'Chills' page specifically as a symptom/condition"
+      ]
+    }
+  }
+}
